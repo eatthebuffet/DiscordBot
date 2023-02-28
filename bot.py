@@ -5,7 +5,7 @@ import yt_dlp as youtube_dl
 from discord.ext import commands
 
 #discord Token
-TOKEN = 'MTA3OTkzMjI3NTgzMzE4ODM5Mg.GB7c5C.t1McfN5Aw_ODIGFPehgnZVBSVkGB2pQkGHRUBE'
+TOKEN = ''
 
 #music bot variables
 voice_clients = {}
