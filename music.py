@@ -1,7 +1,7 @@
 import yt_dlp as youtube_dl
 import asyncio
 
-async def play(message):
+async def music_player(message):
     if message.content.startswith('!play'):
         try:
             voice_client = await message.author.voice.channel.connect()
