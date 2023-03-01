@@ -1,5 +1,16 @@
 import yt_dlp as youtube_dl
 import asyncio
+import discord
+
+
+
+# music bot variables
+voice_clients = {}
+yt_dl_opts = {'format': 'bestaudio/best'}
+ytdl = youtube_dl.YoutubeDL(yt_dl_opts)
+ffmpeg_options = {'options': "-vn"}
+
+queue = {}
 
 async def music_player(message):
     if message.content.startswith('!play'):
