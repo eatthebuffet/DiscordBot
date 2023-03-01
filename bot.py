@@ -34,7 +34,7 @@ async def on_message(message):
 
     elif message.content == '!help':
         await message.channel.send("""```
-Help Menu for the commands.///
+///Help Menu for the commands.///
 
 Truth or Dare:
 
@@ -48,6 +48,7 @@ Music:
     !pause -- pauses the video.
     !resume -- resumes the video.
     !queue -- lists the queue (currently broken)
+    !skip -- skips song in queue (currently broken)
 
         ```""")
     await music_player(message)
