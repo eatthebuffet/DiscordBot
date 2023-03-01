@@ -1,29 +1,25 @@
 import discord
 import random
-import asyncio
-import yt_dlp as youtube_dl
 from discord.ext import commands
 from music import music_player
 
-#discord Token
+# discord Token
 TOKEN = ''
 
-#music bot variables
-voice_clients = {}
-yt_dl_opts = {'format': 'bestaudio/best'}
-ytdl = youtube_dl.YoutubeDL(yt_dl_opts)
-ffmpeg_options = {'options': "-vn"}
 
-#required variables for the bot to function
+
+# required variables for the bot to function
 intents = discord.Intents().all()
 intents.typing = True
 intents.voice_states = True
 intents.message_content = True
-client = commands.Bot(command_prefix='!', intents = discord.Intents.all())
+client = commands.Bot(command_prefix='!', intents=discord.Intents.all())
+
 
 @client.event
 async def on_ready():
     print(f'{client.user} is ready.')
+
 
 @client.event
 async def on_message(message):
@@ -46,19 +42,18 @@ Truth or Dare:
     !truth - gives a random truth.
 
 Music:
-    
+
     !play <URL> -- plays a youtube video.
     !stop  -- stops the video.
     !pause -- pauses the video.
     !resume -- resumes the video.
     !queue -- lists the queue (currently broken)
-    
+
         ```""")
     await music_player(message)
 
 
 def get_truth():
-
     truths = ['What is the most embarrassing thing you have ever done?',
               'Have you ever cheated on a test or exam?',
               'What is the worst date you have ever been on?',
@@ -317,8 +312,9 @@ def get_truth():
               "Have you ever had a crush on a co-worker?",
               "Have you ever let someone take the blame for something you did? What happened?",
               "Tell us about something really crazy that you were able to get away with."
-             ]
+              ]
     return random.choice(truths)
+
 
 def get_dare():
     dares = ['Do your best impression of a famous person.',
@@ -574,7 +570,8 @@ def get_dare():
              "Do a belly dance.",
              "Mimic the joker from a Batman movie.",
              "Call your closest friend and invite him/her for a threesome."
-            ]
+             ]
     return random.choice(dares)
+
 
 client.run(TOKEN)
