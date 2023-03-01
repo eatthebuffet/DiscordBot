@@ -1,18 +1,7 @@
+import yt_dlp as youtube_dl
+import asyncio
 
-#music bot variables
-voice_clients = {}
-#discord Token
-yt_dl_opts = {'format': 'bestaudio/best'}
-ytdl = youtube_dl.YoutubeDL(yt_dl_opts)
-ffmpeg_options = {'options': "-vn"}
-
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-      
- queue = {}
-
+async def play(message):
     if message.content.startswith('!play'):
         try:
             voice_client = await message.author.voice.channel.connect()
