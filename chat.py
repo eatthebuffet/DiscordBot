@@ -25,7 +25,7 @@ def chat_joke() -> str:
 
 def chat_fanfic(message) -> str:
     topic = message.content.replace('$fanfic ','')
-    prompt = f"Write a fan fiction about {topic} in less than 500 words."
+    prompt = f"Write a fan fiction about {topic} in less than 200 words."
     return chat_prompt(prompt)
 
 def chat_question(message) -> str:
@@ -38,10 +38,10 @@ def chat_prompt(prompt:str, max_tokens:int=300, model:str = 'gpt-3.5-turbo', tem
     messages = [
         {
             "role": "system", 
-            "content": "You are a fun assistant."
+            "content": "You are a edgy assistant."
         },
         {
-            "role": "assistant",
+            "role": "user",
             "content":prompt
         }
     ]
