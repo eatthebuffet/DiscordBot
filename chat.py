@@ -24,7 +24,6 @@ def chat_joke() -> str:
     return chat_prompt(prompt)
 
 def chat_fanfic(message) -> str:
-    topic = message.content.replace('$fanfic ','')
     prompt = f"Do the following in the style of a FanFiction in less than 200 words: {topic} "
     return chat_prompt(prompt)
 

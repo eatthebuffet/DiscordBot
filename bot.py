@@ -48,7 +48,7 @@ async def on_message(message) -> None:
         await message.channel.send(chat.chat_joke())
 
     elif message.content.startswith('!fanfic'):
-        await message.channel.send(chat.chat_fanfic(message))
+        await message.channel.send(chat.chat_fanfic(message.replace('!fanfic ', '')))
     
     elif message.content.startswith('!question'):
         await message.channel.send(chat.chat_question(message))
