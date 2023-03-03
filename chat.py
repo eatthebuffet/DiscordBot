@@ -1,6 +1,7 @@
 import discord
 import openai
 import random
+import logging
 import os
 
 openai.api_key = os.environ.get("OPENAI_KEY")
@@ -32,5 +33,9 @@ async def chat_question(message) -> str:
     return chat_prompt(prompt, 1000)
 
 async def chat_prompt(prompt:str, max_tokens:int=2000) -> str:
-    completion = openai.Completion.create(engine="text-davinci-003", prompt=prompt, max_tokens=max_tokens)
-    return completion.choices[0].text
+    try:
+        completion = openai.Completion.create(engine="text-davinci-003", prompt=prompt, max_tokens=max_tokens)
+        return completion.choices[0].text
+    except Exception as err:
+        logging.error(f"Failed to complete prompt {prompt}, Error: {err}")
+        return "Prompt failed to complete, Ask admin to review the logs."
