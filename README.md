@@ -1,6 +1,7 @@
 # DiscordBot
 DiscordBot
 
+This Discord bot is a private one written for our discord server. It has the ability to play music and generate text for various tasks via CHATGPT.
 
 Discord Bot used for servers to include a few features:
 
