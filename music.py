@@ -1,6 +1,7 @@
 import yt_dlp as youtube_dl
 import asyncio
 import discord
+import logging
 
 
 
@@ -16,8 +17,8 @@ async def player_play(message) -> None:
     try:
         voice_client = await message.author.voice.channel.connect()
         voice_clients[voice_client.guild.id] = voice_client
-    except:
-        print("error")
+    except Exception() as err:
+        logging.error(f"Failed to connect to voice channel {message.author.voice.channel}, Error={err}")
 
     try:
         url = message.content.split()[1]
@@ -34,27 +35,27 @@ async def player_play(message) -> None:
                 play_next_song(message.guild.id), loop))
             await message.channel.send(f"Now playing: {data['title']}")
     except Exception as err:
-        print(err)
+        logging.error(f"Failed to play song, Error={err}")
 
 async def player_pause(message):
     try:
         voice_clients[message.guild.id].pause()
 
     except Exception as err:
-        print(err)
+        logging.error(f"Failed to pause song, Error={err}")
 
 async def player_resume(message):
     try:
         voice_clients[message.guild.id].resume()
     except Exception as err:
-        print(err)
+        logging.error(f"Failed to resume song, Error={err}")
 
 async def player_stop(message):
     try:
         voice_clients[message.guild.id].stop()
         await voice_clients[message.guild.id].disconnect()
     except Exception as err:
-        print(err)
+        logging.error(f"Failed to stop song, Error={err}")
 
 async def play_next_song(guild_id):
     if guild_id in queue and len(queue[guild_id]) > 0:
@@ -75,20 +76,3 @@ async def player_queue(message):
                 await message.channel.send(f"{i + 1}. {data['title']}")
         else:
             await message.channel.send("The queue is currently empty.")
-
-async def music_player(message):
-    if message.content.startswith('!play'):
-        pass
-    if message.content.startswith("!pause"):
-        pass
-
-    # This resumes the current song playing if it's been paused
-    if message.content.startswith("!resume"):
-        pass
-    # This stops the current playing song
-    if message.content.startswith("!stop"):
-        pass
-
-
-    if message.content.startswith('!queue'):
-        pass
