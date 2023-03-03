@@ -12,7 +12,7 @@ ffmpeg_options = {'options': "-vn"}
 
 queue = {}
 
-async def player_play(message):
+async def player_play(message) -> None:
     try:
         voice_client = await message.author.voice.channel.connect()
         voice_clients[voice_client.guild.id] = voice_client
