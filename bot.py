@@ -79,6 +79,12 @@ Truth or Dare:
     !dare - gives a random dare.
     !truth - gives a random truth.
 
+Chat:
+    !chatprompt <prompt>
+    !fanfic <topic>
+    !joke
+    !question <question>
+
 Music:
 
     !play <URL> -- plays a youtube video.
@@ -87,7 +93,6 @@ Music:
     !resume -- resumes the video.
     !queue -- lists the queue (currently broken)
     !skip -- skips song in queue (currently broken)
-
         ```""")
 
 client.run(TOKEN)

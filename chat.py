@@ -33,5 +33,4 @@ async def chat_question(message):
 
 async def chat_prompt(prompt, max_tokens=2000):
     completion = openai.Completion.create(engine="text-davinci-003", prompt=prompt, max_tokens=max_tokens)
-    print(prompt)
     return completion.choices[0].text
