@@ -2,40 +2,65 @@ import discord
 import openai
 import random
 import logging
+from dotenv import load_dotenv
 import os
+load_dotenv()
 
 openai.api_key = os.environ.get("OPENAI_KEY")
 
 # We can later change this to inject more interesting prompts into the places where we use this
-questionTypes = ["Funny", "Witty", "Charming", "Creative"]
+questionTypes = ["funny","thought provoking"]
 
-async def chat_truth() -> str:
-    prompt = f"We are playing truth or dare over text chat, I choose truth give me a very {random.choice(questionTypes)} question."
+def chat_truth() -> str:
+    prompt = f"We are playing truth or dare over text chat, I choose truth give me a {random.choice(questionTypes)} question.\nQUESTION:"
+    return chat_prompt(prompt, temp=1.5)
+
+def chat_dare() -> str:
+    prompt = f"We are playing truth or dare over text chat, I choose dare give me a dare.\nDARE:"
+    return chat_prompt(prompt, temp=1.5)
+
+def chat_joke() -> str:
+    prompt = f"Give me a joke."
     return chat_prompt(prompt)
 
-async def chat_dare() -> str:
-    prompt = f"We are playing truth or dare over text chat, I choose dare give me a very creative dare."
-    return chat_prompt(prompt)
-
-async def chat_joke() -> str:
-    prompt = f"Give me a creative {random.choice(questionTypes)} joke."
-    return chat_prompt(prompt)
-
-async def chat_fanfic(message) -> str:
+def chat_fanfic(message) -> str:
     topic = message.content.replace('$fanfic ','')
-    prompt = f"Write a {random.choice(questionTypes)} fan fiction about {topic}."
+    prompt = f"Write a fan fiction about {topic} in less than 500 words."
     return chat_prompt(prompt)
 
-async def chat_question(message) -> str:
+def chat_question(message) -> str:
     prompt = f"Answer the following question like an Scholar: \n{message.content.replace('$question ','')}"
     if prompt[-1] != '?':
         prompt += '?'
-    return chat_prompt(prompt, 1000)
+    return chat_prompt(prompt)
 
-async def chat_prompt(prompt:str, max_tokens:int=2000, model:str = 'gpt-3.5-turbo') -> str:
+def chat_prompt(prompt:str, max_tokens:int=300, model:str = 'gpt-3.5-turbo', temp=1) -> str:
+    messages = [
+        {
+            "role": "system", 
+            "content": "You are a fun assistant."
+        },
+        {
+            "role": "assistant",
+            "content":prompt
+        }
+    ]
     try:
-        completion = openai.Completion.create(engine=model, prompt=prompt, max_tokens=max_tokens)
-        return completion.choices[0].text
+        completion = openai.ChatCompletion.create(model=model, messages=messages, max_tokens=max_tokens, temperature=temp)
+        content = completion.choices[0].message.content
+        print(content)
+        trys = 0
+        if all(s in content.lower() for s in ['model', 'language']):
+            if trys > 3:
+                raise Exception("triggered chatgpt")
+            else:
+                completion = openai.ChatCompletion.create(model=model, messages=messages, max_tokens=max_tokens, temperature=temp)
+                content = completion.choices[0].message.content
+                print(content)
+                trys += 1
+        return content
     except Exception as err:
         logging.error(f"Failed to complete prompt {prompt}, Error: {err}")
+        if err == "triggered chatgpt":
+            return "Chatgpt doens't want to answer this prompt. Try another question."
         return "Prompt failed to complete, Ask admin to review the logs."

@@ -4,6 +4,7 @@ from discord.ext import commands
 import music
 import chat
 from dotenv import load_dotenv
+import logging
 import os
 
 load_dotenv()
