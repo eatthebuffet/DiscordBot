@@ -53,19 +53,19 @@ async def on_message(message) -> None:
         await message.channel.send(chat.chat_question(message))
     
     elif message.content.startswith('!play'):
-        music.player_play(message)
+        await music.player_play(message)
 
     elif message.content.startswith('!pause'):
-        music.player_pause(message)
+        await music.player_pause(message)
     
     elif message.content.startswith('!resume'):
-        music.player_resume(message)
+        await music.player_resume(message)
         
     elif message.content.startswith('!stop'):
-        music.player_stop(message)
+        await music.player_stop(message)
 
     elif message.content.startswith('!queue'):
-        music.player_queue(message)
+        await music.player_queue(message)
 
     elif message.content.startswith('!chatprompt'):
         await message.channel.send(chat.chat_prompt(message.replace('!chatprompt ', '')))

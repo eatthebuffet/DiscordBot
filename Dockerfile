@@ -8,7 +8,9 @@ WORKDIR /app
 COPY . /app
 
 # Install any needed packages specified in requirements.txt
-RUN pip3 install -r requirements.txt
+RUN apt-get update && \
+    apt-get install -y ffmpeg && \
+    pip3 install -r requirements.txt
 
 # Run my_bot.py when the container launches
 CMD ["python", "bot.py"]
