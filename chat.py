@@ -32,9 +32,9 @@ async def chat_question(message) -> str:
         prompt += '?'
     return chat_prompt(prompt, 1000)
 
-async def chat_prompt(prompt:str, max_tokens:int=2000) -> str:
+async def chat_prompt(prompt:str, max_tokens:int=2000, model:str = 'gpt-3.5-turbo') -> str:
     try:
-        completion = openai.Completion.create(engine="text-davinci-003", prompt=prompt, max_tokens=max_tokens)
+        completion = openai.Completion.create(engine=model, prompt=prompt, max_tokens=max_tokens)
         return completion.choices[0].text
     except Exception as err:
         logging.error(f"Failed to complete prompt {prompt}, Error: {err}")
