@@ -1,15 +1,22 @@
-import discord
-import random
-from discord.ext import commands
-import music
-import chat
-from dotenv import load_dotenv
-import logging
+#import logging
 import os
+
+import discord
+from discord.ext import commands
+from dotenv import load_dotenv
+
+
+from chat import chat
+from music import music
 
 load_dotenv()
 # discord Token
-TOKEN = os.environ.get("DISCORD_TOKEN")
+
+TOKEN:str = str(os.environ.get("DISCORD_TOKEN"))
+if TOKEN == "None":
+    raise ValueError("Please set the DISCORD_TOKEN environment variable")
+    
+
 
 
 
@@ -32,11 +39,13 @@ async def on_message(message) -> None:
     if message.author == client.user:
         return
     
-    #this checks if the message is mentioning the bot then it removes the mention from the message if it is
-    if not client.user.mentioned_in(message):
-        return
-    else:
-        message.content = message.content.replace(client.user.mention, '').strip()
+    #this checks if the message is mentioning the bot
+    #then it removes the mention from the message if it is
+    if client.user is not None:
+        if not client.user.mentioned_in(message):
+            return
+        else:
+            message.content = message.content.replace(client.user.mention, '').strip()
 
     if message.content.startswith('!truth'):
         await message.channel.send(chat.chat_truth())
@@ -48,13 +57,16 @@ async def on_message(message) -> None:
         await message.channel.send(chat.chat_joke())
 
     elif message.content.startswith('!fanfic'):
-        await message.channel.send(chat.chat_fanfic(message.replace('!fanfic ', '')))
+        await message.channel.send(chat.chat_fanfic(message.replace('!fanfic ','')))
     
     elif message.content.startswith('!question'):
-        await message.channel.send(chat.chat_question(message))
-    
+        await message.channel.send(chat.chat_question(message.replace('!question ','')))
+        
     elif message.content.startswith('!play'):
         await music.player_play(message)
+    
+    elif message.content.startswith('!skip'):
+        await music.play_next_song(message)
 
     elif message.content.startswith('!pause'):
         await music.player_pause(message)
@@ -69,7 +81,8 @@ async def on_message(message) -> None:
         await music.player_queue(message)
 
     elif message.content.startswith('!chatprompt'):
-        await message.channel.send(chat.chat_prompt(message.replace('!chatprompt ', '')))
+        await message.channel.\
+            send(chat.chat_prompt(message.replace('!chatprompt ', '')))
 
     elif message.content == '!help':
         await message.channel.send("""```
