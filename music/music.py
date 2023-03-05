@@ -60,7 +60,6 @@ async def player_resume(message):
 async def player_stop(message):
     try:
         await voice_clients[message.guild.id].stop()
-        await voice_clients[message.guild.id].disconnect()
     except Exception as err:
         logging.error(f"Failed to stop song, Error={err}")
 
