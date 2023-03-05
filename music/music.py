@@ -20,6 +20,7 @@ async def player_play(message) -> None:
     except Exception as err:
         logging.error("Failed to connect to voice channel "\
                      f"{message.author.voice.channel}, Error={err}")
+        return
 
     try:
         url = message.content.split()[1]
@@ -41,6 +42,7 @@ async def player_play(message) -> None:
             await message.channel.send(f"Now playing: {data['title']}")
     except Exception as err:
         logging.error(f"Failed to play song, Error={err}")
+        return
 
 async def player_pause(message):
     try:
